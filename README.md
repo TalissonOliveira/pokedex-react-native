@@ -1,22 +1,22 @@
 ## :information_source: Como utilizar
 
-Para clonar e executar este aplicativo, você precisará do [Git](https://git-scm.com/), [Node.js](https://nodejs.org/en/) v10.16 ou superior + Npm instalado em seu computador.
+Para clonar e executar este aplicativo, você precisará do [Git](https://git-scm.com/), [Node.js](https://nodejs.org/en/) v12.18 ou superior + Npm e Expo CLI instalado em seu computador.
 
 Na linha de comando:
 ```bash
 # Clonar o repositório
-$ git clone https://github.com/TalissonOliveira/proffy-discovery
+$ git clone https://github.com/TalissonOliveira/pokedex-react-native
 
 # Entrar no diretório
-$ cd proffy-discovery
+$ cd pokedex-react-native
 
 # Baixar as dependências
 $ npm install
 
 # Executar o servidor
-$ npm run dev
+$ expo start
 ```
-Feito isso, abra o seu navegador e acesse http://localhost:8080/
+Feito isso, uma janela se abrirá no seu navegador: http://localhost:19002/
 
 ## :memo: Licença
 
