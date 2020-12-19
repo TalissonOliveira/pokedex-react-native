@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, SafeAreaView, Image, StatusBar } from 'react-native';
 import { Entypo, Ionicons, MaterialIcons  } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 import styles from '../styles/dashboard';
 import headerStyles from '../styles/header';
@@ -11,8 +12,9 @@ import styleCard from '../scripts/changeStyleCard';
 export default function dashboard({ navigation }) {
     const [pokemons, setPokemons] = useState([])
     const [userId, setUserId] = useState('')
-    const [search, setSearch] = useState()
+    const [search, setSearch] = useState('')
     const [filteredPokemons, setFilteredPokemons] = useState([])
+    const [pokemonPromises, setPokemonPromises] = useState([])
 
     useEffect(() => {
         async function getId() {
@@ -22,14 +24,27 @@ export default function dashboard({ navigation }) {
         getId()
     }, [])
 
-    useEffect(() => {
-        for (let i = 1; i <= 250; i++) {
+   /*  useEffect(() => {
+        for (let i = 1; i <= 50; i++) {
             const url = `https://pokeapi.co/api/v2/pokemon/${i}`
 
             fetch(url)
                 .then(response => response.json()
                 .then(data => pokemons.push(data)))
         }
+    }, []) */
+
+    useEffect(() => {
+        const getPokemonUrl = id => `https://pokeapi.co/api/v2/pokemon/${id}`
+
+        for (let i = 1; i <= 200; i++) {
+            pokemonPromises.push(fetch(getPokemonUrl(i))
+                .then(response => response.json()))
+        }
+
+        Promise.all(pokemonPromises).then(
+            pokemons => setPokemons(pokemons)
+        )
     }, [])
 
     useEffect(() => {        
@@ -99,7 +114,7 @@ export default function dashboard({ navigation }) {
             {/* body */}
             <View style={styles.body}>          
                 <FlatList 
-                    data={search ? filteredPokemons : pokemons}
+                    data={search == '' ? pokemons : filteredPokemons}
                     scrollEnabled={true}
                     keyExtractor={key => key.name}  
                     renderItem={showPokemons}
